@@ -13,10 +13,10 @@
 </head>
 <body>
     <!-- About Us Modal -->
-    <div id="aboutModal" class="about-modal" style="display:none;">
+    <div id="aboutModal" class="about-modal hidden">
         <div class="about-modal-content">
             <button class="about-modal-close" id="aboutModalClose" title="Close">&times;</button>
-            <img src="Project-Nebula-Notes.png" alt="Nebula Notes Screenshot" class="about-screenshot" style="max-width:100%;border-radius:12px;box-shadow:0 4px 16px rgba(30,40,70,0.18);margin-bottom:18px;">
+            <img src="Project-Nebula-Notes.png" alt="Nebula Notes Screenshot" class="about-screenshot about-screenshot-styled">
             <!-- <h2>Project - Nebula Notes</h2>
             <h3>Project Overview</h3>
             <p>Nebula Notes is a cutting-edge AI-powered notes application with a stunning nebula-inspired design featuring deep blues, purples, and subtle pinks.</p>
@@ -64,7 +64,7 @@
         <header>
             <button class="about-btn" id="aboutBtn" title="About Nebula Notes">About Us</button>
             <h1><span class="logo-nn-svg">
-                <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;">
+                <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-nn-svg-styled">
                   <defs>
                     <radialGradient id="nebulaCircle" cx="50%" cy="50%" r="50%">
                       <stop offset="0%" stop-color="#aeefff"/>
@@ -82,7 +82,7 @@
                   <circle cx="26" cy="26" r="24" fill="url(#nebulaCircle)" filter="url(#glow)"/>
                   <ellipse cx="18" cy="20" rx="7" ry="5" fill="#fff" opacity="0.10"/>
                   <ellipse cx="34" cy="32" rx="8" ry="6" fill="#fff" opacity="0.08"/>
-                  <text x="50%" y="58%" text-anchor="middle" font-family="'Montserrat', 'Roboto', Arial, sans-serif" font-size="28" font-weight="900" fill="#fff" opacity="0.96" style="filter: drop-shadow(0 0 6px #6ec6ff);">N</text>
+                  <text x="50%" y="58%" text-anchor="middle" font-family="'Montserrat', 'Roboto', Arial, sans-serif" font-size="28" font-weight="900" fill="#fff" opacity="0.96" class="logo-nn-drop-shadow">N</text>
                 </svg>
             </span> Nebula Notes</h1>
             <p>Create, organize, and improve your notes with AI</p>
@@ -98,7 +98,8 @@
             <input type="text" id="noteTitle" placeholder="Note title..." maxlength="100">
             <!-- Formatting Toolbar -->
             <div class="toolbar" id="toolbar">
-                <select id="fontFamily">
+                <label for="fontFamily" class="label-margin-right">Font Family</label>
+                <select id="fontFamily" title="Font Family">
                     <option value="sans-serif">Sans</option>
                     <option value="serif">Serif</option>
                     <option value="monospace">Monospace</option>
@@ -110,7 +111,8 @@
                     <option value="Lato, sans-serif">Lato</option>
                     <option value="Montserrat, sans-serif">Montserrat</option>
                 </select>
-                <select id="fontSize">
+                <label for="fontSize" class="label-margin-both">Font Size</label>
+                <select id="fontSize" title="Font Size">
                     <option value="14px">14</option>
                     <option value="16px" selected>16</option>
                     <option value="18px">18</option>
@@ -126,7 +128,7 @@
                 <input type="color" id="bgColor" title="Highlight">
             </div>
             <!-- Rich text editable area -->
-            <div id="noteContent" class="rich-text" contenteditable="true" placeholder="Write your note content here..." style="min-height:120px;"></div>
+            <div id="noteContent" class="rich-text" contenteditable="true" placeholder="Write your note content here..."></div>
             <button id="addNoteBtn">Add Note</button>
         </div>
 
@@ -144,12 +146,12 @@
     </div>
 
     <!-- Note Modal for full note view -->
-    <div id="noteModal" class="note-modal" style="display:none;">
+    <div id="noteModal" class="note-modal hidden">
         <div class="note-modal-content">
             <button class="note-modal-close" id="noteModalClose" title="Close">&times;</button>
             <h2 id="modalNoteTitle"></h2>
             <div id="modalNoteDate" class="modal-note-date"></div>
-            <div id="modalNoteContent" class="modal-note-content"></div>
+            <div id="modalNoteContent" class="modal-note-content modal-note-content-styled"></div>
         </div>
     </div>
 

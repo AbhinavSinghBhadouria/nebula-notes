@@ -1053,3 +1053,39 @@ header p {
     font-size: 0.9em;
     opacity: 0.8;
 } 
+
+.about-screenshot-styled {
+    max-width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(30,40,70,0.18);
+    margin-bottom: 18px;
+}
+
+.logo-nn-svg-styled {
+    vertical-align: middle;
+}
+
+.rich-text {
+    min-height: 120px;
+}
+
+.modal-note-content-styled {
+    /* Add any specific styles if needed, currently placeholder for future use */
+} 
+
+.hidden {
+    display: none !important;
+}
+
+.label-margin-right {
+    margin-right: 8px;
+}
+
+.label-margin-both {
+    margin-left: 16px;
+    margin-right: 8px;
+} 
+
+.logo-nn-drop-shadow {
+    filter: drop-shadow(0 0 6px #6ec6ff);
+} 
