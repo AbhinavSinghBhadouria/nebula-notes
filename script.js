@@ -581,66 +581,116 @@ class NotesApp {
     }
 
     async exportNotesAsPDF() {
-        const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF('p', 'pt', 'a4');
-        // Create a hidden container for PDF export
-        const exportContainer = document.createElement('div');
-        exportContainer.style.width = '700px';
-        exportContainer.style.padding = '24px';
-        exportContainer.style.background = '#fff';
-        exportContainer.style.fontFamily = 'Roboto, Times New Roman, Arial, sans-serif';
-        exportContainer.innerHTML = this.notes.map(note => `
-            <div style="margin-bottom:32px; border-bottom:1px solid #eee; padding-bottom:16px;">
-                <h2 style="font-size:20px; margin:0 0 8px 0; font-family:inherit;">${this.escapeHtml(note.title)}</h2>
-                <div style="color:#888; font-size:12px; margin-bottom:8px; font-family:inherit;">${note.date}</div>
-                <div style="font-size:15px; font-family:inherit;">${note.content}</div>
-            </div>
-        `).join('');
-        document.body.appendChild(exportContainer);
-        // Use jsPDF's html() for real text export
-        await pdf.html(exportContainer, {
-            x: 30,
-            y: 30,
-            width: 540,
-            windowWidth: 700,
-            html2canvas: { scale: 1, backgroundColor: '#fff' },
-            callback: function (doc) {
-                doc.save('MyNotes.pdf');
-                document.body.removeChild(exportContainer);
-            }
-        });
+        try {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF('p', 'pt', 'a4');
+            
+            // Create a hidden container for PDF export
+            const exportContainer = document.createElement('div');
+            exportContainer.style.cssText = `
+                position: absolute;
+                left: -9999px;
+                top: -9999px;
+                width: 700px;
+                padding: 24px;
+                background: #fff;
+                font-family: 'Roboto', 'Times New Roman', Arial, sans-serif;
+                color: #000;
+                line-height: 1.6;
+            `;
+            
+            exportContainer.innerHTML = `
+                <h1 style="font-size: 24px; margin-bottom: 20px; color: #333; text-align: center;">My Notes</h1>
+                ${this.notes.map(note => `
+                    <div style="margin-bottom: 32px; border-bottom: 1px solid #eee; padding-bottom: 16px;">
+                        <h2 style="font-size: 20px; margin: 0 0 8px 0; color: #333;">${this.escapeHtml(note.title)}</h2>
+                        <div style="color: #666; font-size: 12px; margin-bottom: 8px;">${note.date}</div>
+                        <div style="font-size: 15px; color: #333; white-space: pre-wrap;">${this.escapeHtml(note.content.replace(/<[^>]+>/g, ''))}</div>
+                    </div>
+                `).join('')}
+            `;
+            
+            document.body.appendChild(exportContainer);
+            
+            // Use html2canvas to capture the content
+            const canvas = await html2canvas(exportContainer, {
+                scale: 2,
+                backgroundColor: '#ffffff',
+                width: 700,
+                height: exportContainer.scrollHeight,
+                useCORS: true,
+                allowTaint: true
+            });
+            
+            document.body.removeChild(exportContainer);
+            
+            // Add the canvas to PDF
+            const imgData = canvas.toDataURL('image/png');
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+            
+            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            pdf.save('MyNotes.pdf');
+            
+        } catch (error) {
+            console.error('Error exporting PDF:', error);
+            this.showNotification('Failed to export PDF. Please try again.', 'error');
+        }
     }
 
     async exportSingleNoteAsPDF(noteId) {
-        const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF('p', 'pt', 'a4');
-        const note = this.notes.find(n => n.id === noteId);
-        if (!note) return;
-        // Create a hidden container for PDF export
-        const exportContainer = document.createElement('div');
-        exportContainer.style.width = '600px';
-        exportContainer.style.padding = '24px';
-        exportContainer.style.background = '#fff';
-        exportContainer.style.fontFamily = 'Roboto, Times New Roman, Arial, sans-serif';
-        exportContainer.innerHTML = `
-            <div style="margin-bottom:32px; border-bottom:1px solid #eee; padding-bottom:16px;">
-                <h2 style="font-size:20px; margin:0 0 8px 0; font-family:inherit;">${this.escapeHtml(note.title)}</h2>
-                <div style="color:#888; font-size:12px; margin-bottom:8px; font-family:inherit;">${note.date}</div>
-                <div style="font-size:15px; font-family:inherit;">${note.content}</div>
-            </div>
-        `;
-        document.body.appendChild(exportContainer);
-        await pdf.html(exportContainer, {
-            x: 30,
-            y: 30,
-            width: 540,
-            windowWidth: 600,
-            html2canvas: { scale: 1, backgroundColor: '#fff' },
-            callback: function (doc) {
-                doc.save((note.title || 'Note') + '.pdf');
-                document.body.removeChild(exportContainer);
-            }
-        });
+        try {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF('p', 'pt', 'a4');
+            const note = this.notes.find(n => n.id === noteId);
+            if (!note) return;
+            
+            // Create a hidden container for PDF export
+            const exportContainer = document.createElement('div');
+            exportContainer.style.cssText = `
+                position: absolute;
+                left: -9999px;
+                top: -9999px;
+                width: 600px;
+                padding: 24px;
+                background: #fff;
+                font-family: 'Roboto', 'Times New Roman', Arial, sans-serif;
+                color: #000;
+                line-height: 1.6;
+            `;
+            
+            exportContainer.innerHTML = `
+                <h1 style="font-size: 24px; margin-bottom: 20px; color: #333; text-align: center;">${this.escapeHtml(note.title)}</h1>
+                <div style="color: #666; font-size: 12px; margin-bottom: 16px; text-align: center;">${note.date}</div>
+                <div style="font-size: 16px; color: #333; white-space: pre-wrap; line-height: 1.8;">${this.escapeHtml(note.content.replace(/<[^>]+>/g, ''))}</div>
+            `;
+            
+            document.body.appendChild(exportContainer);
+            
+            // Use html2canvas to capture the content
+            const canvas = await html2canvas(exportContainer, {
+                scale: 2,
+                backgroundColor: '#ffffff',
+                width: 600,
+                height: exportContainer.scrollHeight,
+                useCORS: true,
+                allowTaint: true
+            });
+            
+            document.body.removeChild(exportContainer);
+            
+            // Add the canvas to PDF
+            const imgData = canvas.toDataURL('image/png');
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+            
+            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            pdf.save((note.title || 'Note') + '.pdf');
+            
+        } catch (error) {
+            console.error('Error exporting PDF:', error);
+            this.showNotification('Failed to export PDF. Please try again.', 'error');
+        }
     }
 }
 
