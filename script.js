@@ -323,41 +323,27 @@ class NotesApp {
         // Show loading overlay
         this.showLoading();
         try {
-            const API_KEY = CONFIG.GROQ_API_KEY;
-            const API_URL = 'https://api.groq.com/openai/v1/chat/completions';
             // Strip HTML tags for AI improvement, but keep line breaks
             const plainText = note.content.replace(/<[^>]+>/g, '').replace(/\n/g, '\n');
-            const prompt = `Please improve the following text for better grammar, clarity, and readability. Keep the original meaning and tone, but make it more polished and professional. Here's the text:\n\n"${plainText}"\n\nPlease return only the improved text without any additional explanations or formatting.`;
-            const requestBody = {
-                model: "llama3-8b-8192",
-                messages: [
-                    {
-                        role: "user",
-                        content: prompt
-                    }
-                ],
-                temperature: 0.3,
-                max_tokens: 2048,
-                top_p: 0.95
-            };
-            const response = await fetch(API_URL, {
+            
+            const response = await fetch('/api/improve-note', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${API_KEY}`
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(requestBody)
+                body: JSON.stringify({ content: plainText })
             });
+            
             if (!response.ok) {
                 throw new Error(`API request failed: ${response.status} ${response.statusText}`);
             }
+            
             const data = await response.json();
-            if (data.choices && data.choices[0] && data.choices[0].message) {
-                // Replace content with improved plain text, preserving basic line breaks
-                const improvedContent = data.choices[0].message.content.trim().replace(/\n/g, '<br>');
+            
+            if (data.improvedContent) {
                 const noteIndex = this.notes.findIndex(note => note.id === id);
                 if (noteIndex !== -1) {
-                    this.notes[noteIndex].content = improvedContent;
+                    this.notes[noteIndex].content = data.improvedContent;
                     this.notes[noteIndex].improved = true;
                     this.notes[noteIndex].date = new Date().toLocaleString();
                     this.saveNotes();
@@ -369,7 +355,7 @@ class NotesApp {
             }
         } catch (error) {
             console.error('Error improving note with AI:', error);
-            this.showNotification('Failed to improve note. Please check your API key and try again.', 'error');
+            this.showNotification('Failed to improve note. Please try again.', 'error');
         } finally {
             this.hideLoading();
         }
