@@ -218,16 +218,16 @@ class NotesApp {
         const aboutModalClose = document.getElementById('aboutModalClose');
         if (aboutBtn && aboutModal && aboutModalClose) {
             aboutBtn.addEventListener('click', () => {
-                aboutModal.style.display = 'flex';
+                aboutModal.classList.remove('hidden');
                 document.body.style.overflow = 'hidden';
             });
             aboutModalClose.addEventListener('click', () => {
-                aboutModal.style.display = 'none';
+                aboutModal.classList.add('hidden');
                 document.body.style.overflow = '';
             });
             aboutModal.addEventListener('click', (e) => {
                 if (e.target === aboutModal) {
-                    aboutModal.style.display = 'none';
+                    aboutModal.classList.add('hidden');
                     document.body.style.overflow = '';
                 }
             });
@@ -489,12 +489,12 @@ class NotesApp {
         if (!note) return;
         document.getElementById('modalNoteTitle').textContent = note.title;
         document.getElementById('modalNoteDate').textContent = note.date;
-        document.getElementById('modalNoteContent').innerHTML = note.content + `<div style='margin-top:18px;'><button class='btn btn-export' onclick='notesApp.exportSingleNoteAsPDF(${note.id})'>📄 Export as PDF</button></div>`;
-        document.getElementById('noteModal').style.display = 'flex';
+        document.getElementById('modalNoteContent').innerHTML = note.content + `<div class='modal-export-btn-wrap'><button class='btn btn-export' onclick='notesApp.exportSingleNoteAsPDF(${note.id})'>📄 Export as PDF</button></div>`;
+        document.getElementById('noteModal').classList.remove('hidden');
         document.body.style.overflow = 'hidden';
     }
     closeNoteModal() {
-        document.getElementById('noteModal').style.display = 'none';
+        document.getElementById('noteModal').classList.add('hidden');
         document.body.style.overflow = '';
     }
 

@@ -1089,3 +1089,7 @@ header p {
 .logo-nn-drop-shadow {
     filter: drop-shadow(0 0 6px #6ec6ff);
 } 
+
+.modal-export-btn-wrap {
+    margin-top: 18px;
+} 
