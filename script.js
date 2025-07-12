@@ -4,7 +4,13 @@ class NotesApp {
         // Check if user is logged in
         this.currentUser = AuthSystem.getCurrentUser();
         if (!this.currentUser) {
-            window.location.href = 'login.html';
+            // Only redirect if we're not already on the login page
+            if (!window.location.pathname.includes('login.html') && 
+                !window.location.pathname.includes('signup.html') &&
+                !window.location.pathname.includes('landing.html')) {
+                window.location.href = 'login.html';
+                return;
+            }
             return;
         }
         
@@ -24,6 +30,7 @@ class NotesApp {
         this.notesContainer = document.getElementById('notesContainer');
         this.loadingOverlay = document.getElementById('loadingOverlay');
         this.themeToggle = document.getElementById('themeToggle');
+        console.log('Theme toggle element found:', this.themeToggle);
         this.fab = document.getElementById('fab');
         this.addNoteSection = document.getElementById('addNoteSection');
         this.particlesContainer = document.getElementById('particles');
@@ -202,7 +209,14 @@ class NotesApp {
             }
         });
         // Theme toggle
-        this.themeToggle.addEventListener('click', () => this.toggleTheme());
+        if (this.themeToggle) {
+            this.themeToggle.addEventListener('click', () => {
+                console.log('Theme toggle clicked!');
+                this.toggleTheme();
+            });
+        } else {
+            console.error('Theme toggle element not found!');
+        }
         // Floating action button
         this.fab.addEventListener('click', () => this.focusAddNote());
         // Export as PDF (only if button exists)
@@ -548,6 +562,8 @@ class NotesApp {
     }
     
     setupTheme() {
+        if (!this.themeToggle) return;
+        
         if (this.isDarkMode) {
             document.documentElement.setAttribute('data-theme', 'dark');
             this.themeToggle.textContent = '☀️';
@@ -563,10 +579,12 @@ class NotesApp {
         this.setupTheme();
         
         // Add animation effect
-        this.themeToggle.style.transform = 'rotate(360deg)';
-        setTimeout(() => {
-            this.themeToggle.style.transform = '';
-        }, 300);
+        if (this.themeToggle) {
+            this.themeToggle.style.transform = 'rotate(360deg)';
+            setTimeout(() => {
+                this.themeToggle.style.transform = '';
+            }, 300);
+        }
     }
     
     focusAddNote() {
