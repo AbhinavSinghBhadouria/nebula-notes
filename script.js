@@ -326,6 +326,8 @@ class NotesApp {
             // Strip HTML tags for AI improvement, but keep line breaks
             const plainText = note.content.replace(/<[^>]+>/g, '').replace(/\n/g, '\n');
             
+            console.log('Sending request to improve note:', { content: plainText.substring(0, 100) + '...' });
+            
             const response = await fetch('/api/improve-note', {
                 method: 'POST',
                 headers: {
@@ -334,11 +336,17 @@ class NotesApp {
                 body: JSON.stringify({ content: plainText })
             });
             
+            console.log('Response status:', response.status);
+            console.log('Response headers:', response.headers);
+            
             if (!response.ok) {
-                throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+                const errorText = await response.text();
+                console.error('API Error Response:', errorText);
+                throw new Error(`API request failed: ${response.status} ${response.statusText} - ${errorText}`);
             }
             
             const data = await response.json();
+            console.log('API Response data:', data);
             
             if (data.improvedContent) {
                 const noteIndex = this.notes.findIndex(note => note.id === id);
@@ -351,11 +359,12 @@ class NotesApp {
                     this.showNotification('Note improved successfully! ✨', 'success');
                 }
             } else {
-                throw new Error('Invalid response format from API');
+                console.error('Invalid response format:', data);
+                throw new Error('Invalid response format from API - no improvedContent field');
             }
         } catch (error) {
             console.error('Error improving note with AI:', error);
-            this.showNotification('Failed to improve note. Please try again.', 'error');
+            this.showNotification(`Failed to improve note: ${error.message}`, 'error');
         } finally {
             this.hideLoading();
         }
