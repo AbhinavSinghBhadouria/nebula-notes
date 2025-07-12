@@ -604,7 +604,6 @@ class NotesApp {
                 ${this.notes.map(note => `
                     <div style="margin-bottom: 32px; border-bottom: 1px solid #eee; padding-bottom: 16px;">
                         <h2 style="font-size: 20px; margin: 0 0 8px 0; color: #333;">${this.escapeHtml(note.title)}</h2>
-                        <div style="color: #666; font-size: 12px; margin-bottom: 8px;">${note.date}</div>
                         <div style="font-size: 15px; color: #333; white-space: pre-wrap;">${this.escapeHtml(note.content.replace(/<[^>]+>/g, ''))}</div>
                     </div>
                 `).join('')}
@@ -661,7 +660,6 @@ class NotesApp {
             
             exportContainer.innerHTML = `
                 <h1 style="font-size: 24px; margin-bottom: 20px; color: #333; text-align: center;">${this.escapeHtml(note.title)}</h1>
-                <div style="color: #666; font-size: 12px; margin-bottom: 16px; text-align: center;">${note.date}</div>
                 <div style="font-size: 16px; color: #333; white-space: pre-wrap; line-height: 1.8;">${this.escapeHtml(note.content.replace(/<[^>]+>/g, ''))}</div>
             `;
             
