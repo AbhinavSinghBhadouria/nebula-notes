@@ -1,16 +1,21 @@
-# Notes App with AI Enhancement 🤖
+# Nebula Notes - AI Enhanced Notes App 🤖
 
-A modern, responsive Notes App built with HTML, CSS, and JavaScript that allows users to create, edit, delete, and improve notes using Groq AI (powered by Llama 3).
+A modern, responsive Notes App built with HTML, CSS, and JavaScript that allows users to create, edit, delete, and improve notes using Groq AI (powered by Llama 3). Features a stunning nebula-inspired design with user authentication and secure, private note storage.
 
 ## Features ✨
 
-- **Create Notes**: Add notes with title and content
-- **Edit Notes**: Modify existing notes inline
+- **User Authentication**: Secure signup and login system
+- **User-Specific Storage**: Each user's notes are stored separately and privately
+- **Create Notes**: Add notes with title and rich content
+- **Edit Notes**: Modify existing notes inline with advanced formatting
 - **Delete Notes**: Remove unwanted notes with confirmation
 - **AI Enhancement**: Improve note content using Groq AI (Llama 3 model)
+- **Rich Text Editing**: Advanced formatting with custom fonts, colors, and styling
+- **PDF Export**: Export notes as professionally styled PDF documents
 - **Local Storage**: All notes are saved locally in your browser
 - **Responsive Design**: Works perfectly on desktop and mobile devices
-- **Modern UI**: Beautiful gradient design with smooth animations
+- **Modern UI**: Beautiful nebula-inspired design with smooth animations
+- **Dark/Light Mode**: Toggle between themes
 - **Real-time Updates**: Instant UI updates when notes are modified
 
 ## Setup Instructions 🚀
@@ -35,20 +40,28 @@ A modern, responsive Notes App built with HTML, CSS, and JavaScript that allows 
 
 ### 3. Run the App
 
-1. Open `index.html` in your web browser
-2. Start creating and improving your notes!
+1. Open `landing.html` in your web browser (or `index.html` to go directly to the app)
+2. Create an account or sign in
+3. Start creating and improving your notes!
 
 ## How to Use 📝
 
+### Getting Started
+1. Visit the landing page (`landing.html`)
+2. Click "Get Started" to sign in or "Create Account" to register
+3. Fill in your details and create your account
+4. You'll be automatically logged in and redirected to the main app
+
 ### Creating Notes
 1. Enter a title in the "Note title" field
-2. Write your content in the "Write your note content here" textarea
-3. Click "Add Note" or press Ctrl+Enter
+2. Write your content in the rich text editor
+3. Use the formatting toolbar for styling (bold, italic, colors, etc.)
+4. Click "Add Note" or press Ctrl+Enter
 
 ### Editing Notes
 1. Click the "✏️ Edit" button on any note
 2. The note content will appear in the form above
-3. Make your changes
+3. Make your changes using the rich text editor
 4. Click "Update Note"
 
 ### Improving Notes with AI
@@ -57,9 +70,39 @@ A modern, responsive Notes App built with HTML, CSS, and JavaScript that allows 
 3. The improved version will automatically replace the original content
 4. A green "✨ AI Improved" badge will appear on enhanced notes
 
+### Exporting Notes
+1. Click the "📄 Export as PDF" button on any note
+2. The note will be exported as a professionally formatted PDF
+3. The file will be automatically downloaded to your device
+
 ### Deleting Notes
 1. Click the "🗑️ Delete" button on any note
 2. Confirm the deletion in the popup dialog
+
+### Logging Out
+1. Click the "🚪 Logout" button in the top-right corner
+2. Confirm the logout action
+3. You'll be redirected to the login page
+
+## Authentication System 🔐
+
+### User Registration
+- Full name, email, and password required
+- Password must be at least 6 characters
+- Email validation and duplicate checking
+- Automatic login after successful registration
+
+### User Login
+- Email and password authentication
+- Secure password verification
+- Session persistence across browser sessions
+- Automatic redirect to main app if already logged in
+
+### Security Features
+- User-specific note storage (`notes_${userId}`)
+- Password hashing (simple hash for demo - use bcrypt in production)
+- Session management with localStorage
+- Automatic logout on session expiry
 
 ## API Configuration 🔧
 
@@ -74,9 +117,14 @@ The app uses Groq's OpenAI-compatible API with the following configuration:
 
 ```
 makeYournotes/
-├── index.html          # Main HTML file
-├── styles.css          # CSS styles and animations
-├── script.js           # JavaScript functionality
+├── landing.html        # Landing page with app overview
+├── login.html          # User login page
+├── signup.html         # User registration page
+├── index.html          # Main notes app (requires authentication)
+├── styles.css          # Main app CSS styles
+├── auth-styles.css     # Authentication pages CSS styles
+├── script.js           # Main app JavaScript functionality
+├── auth.js             # Authentication system JavaScript
 ├── config.js           # API configuration (private - not in Git)
 ├── config.example.js   # Example configuration file
 ├── .gitignore          # Git ignore rules
@@ -92,14 +140,27 @@ makeYournotes/
 
 ## Local Storage 📦
 
-All notes are stored in your browser's localStorage under the key `'notes'`. Each note contains:
+### User Data
+- `nebula_users`: Array of registered users
+- `nebula_current_user`: Currently logged-in user session
+- `notes_${userId}`: User-specific notes storage
+- `darkMode`: Theme preference
+
+### Note Structure
+Each note contains:
 - `id`: Unique identifier
 - `title`: Note title
-- `content`: Note content
+- `content`: Rich HTML content
 - `date`: Creation/update timestamp
+- `createdAt`: Creation timestamp for auto-deletion
 - `improved`: Boolean flag indicating if AI has improved the note
 
 ## Troubleshooting 🔧
+
+### Authentication Issues
+- Clear browser localStorage if login problems persist
+- Ensure you're using the correct email/password combination
+- Check browser console for any JavaScript errors
 
 ### API Key Issues
 - Ensure your API key is correctly inserted in `config.js`
@@ -113,20 +174,20 @@ All notes are stored in your browser's localStorage under the key `'notes'`. Eac
 ### Local Storage Issues
 - Clear your browser's localStorage if notes aren't loading
 - Check browser console for any JavaScript errors
+- Ensure you're logged in to access your notes
 
 ## Customization 🎨
 
 ### Changing Colors
-Edit the CSS variables in `styles.css` to customize the app's appearance:
+Edit the CSS variables in `styles.css` and `auth-styles.css` to customize the app's appearance:
 
 ```css
-/* Main gradient */
-background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+/* Main nebula gradient */
+--nebula-gradient: linear-gradient(135deg, #0a192f 0%, #304ffe 50%, #aeefff 100%);
 
-/* Button colors */
-.btn-improve {
-    background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
-}
+/* Primary colors */
+--primary-color: #304ffe;
+--primary-light: #aeefff;
 ```
 
 ### Modifying AI Prompts
@@ -136,9 +197,21 @@ Edit the prompt in the `improveNoteWithAI` function in `script.js` to change how
 
 - Your API key is stored in `config.js` which is excluded from Git tracking
 - The `config.js` file is listed in `.gitignore` to keep it private
+- User passwords are hashed before storage (use bcrypt in production)
+- Each user's notes are stored separately with user-specific keys
+- Session data is stored in localStorage (consider server-side sessions for production)
 - Never commit your actual API key to version control
 - For production use, consider implementing a backend service
 - Monitor your API usage to avoid unexpected charges
+
+## Future Enhancements 🚀
+
+- Password reset functionality
+- User profile management
+- Note sharing between users
+- Cloud storage integration
+- Advanced AI features
+- Mobile app version
 
 ## License 📄
 
@@ -150,6 +223,7 @@ If you encounter any issues or have questions:
 1. Check the browser console for error messages
 2. Verify your API key is correctly configured
 3. Ensure you have an active internet connection for AI features
+4. Try logging out and logging back in if experiencing issues
 
 ---
 

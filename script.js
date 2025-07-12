@@ -1,7 +1,15 @@
 // Notes App with AI Enhancement
 class NotesApp {
     constructor() {
-        this.notes = JSON.parse(localStorage.getItem('notes')) || [];
+        // Check if user is logged in
+        this.currentUser = AuthSystem.getCurrentUser();
+        if (!this.currentUser) {
+            window.location.href = 'login.html';
+            return;
+        }
+        
+        // Load user-specific notes
+        this.notes = JSON.parse(localStorage.getItem(`notes_${this.currentUser.id}`)) || [];
         this.currentEditingId = null;
         this.isDarkMode = localStorage.getItem('darkMode') === 'true';
         
@@ -26,12 +34,15 @@ class NotesApp {
         this.bgColor = document.getElementById('bgColor');
         this.storageFill = document.getElementById('storageFill');
         this.storageText = document.getElementById('storageText');
+        this.userName = document.getElementById('userName');
+        this.logoutBtn = document.getElementById('logoutBtn');
         
         // Initialize the app
         this.init();
     }
     
     init() {
+        this.setupUserInfo();
         this.setupTheme();
         this.createParticles();
         this.autoDeleteOldNotes();
@@ -229,6 +240,15 @@ class NotesApp {
                 if (e.target === aboutModal) {
                     aboutModal.classList.add('hidden');
                     document.body.style.overflow = '';
+                }
+            });
+        }
+        
+        // Logout functionality
+        if (this.logoutBtn) {
+            this.logoutBtn.addEventListener('click', () => {
+                if (confirm('Are you sure you want to logout?')) {
+                    AuthSystem.logout();
                 }
             });
         }
@@ -444,8 +464,14 @@ class NotesApp {
         this.currentEditingId = null;
     }
     
+    setupUserInfo() {
+        if (this.userName) {
+            this.userName.textContent = `Welcome, ${this.currentUser.fullName}`;
+        }
+    }
+    
     saveNotes() {
-        localStorage.setItem('notes', JSON.stringify(this.notes));
+        localStorage.setItem(`notes_${this.currentUser.id}`, JSON.stringify(this.notes));
         // Check storage limit after saving
         this.checkStorageLimit();
     }

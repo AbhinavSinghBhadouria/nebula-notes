@@ -62,7 +62,13 @@
     
     <div class="container">
         <header>
-            <button class="about-btn" id="aboutBtn" title="About Nebula Notes">About Us</button>
+            <div class="header-top">
+                <button class="about-btn" id="aboutBtn" title="About Nebula Notes">About Us</button>
+                <div class="user-info">
+                    <span id="userName">Welcome</span>
+                    <button class="logout-btn" id="logoutBtn" title="Logout">🚪 Logout</button>
+                </div>
+            </div>
             <h1><span class="logo-nn-svg">
                 <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-nn-svg-styled">
                   <defs>
@@ -156,6 +162,15 @@
     </div>
 
     <script src="config.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        // Check authentication before loading the app
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!AuthSystem.isLoggedIn()) {
+                window.location.href = 'login.html';
+            }
+        });
+    </script>
     <script src="script.js"></script>
     <footer class="footer">
         <div class="footer-content">
