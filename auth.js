@@ -159,6 +159,7 @@ class AuthSystem {
         const password = form.password.value;
         const confirmPassword = form.confirmPassword.value;
         const submitBtn = form.querySelector('button[type="submit"]');
+        const authLoadingOverlay = document.getElementById('authLoadingOverlay');
         
         // Show loading state
         submitBtn.classList.add('loading');
@@ -196,22 +197,27 @@ class AuthSystem {
             this.users.push(newUser);
             localStorage.setItem('nebula_users', JSON.stringify(this.users));
             
-            // Auto-login
-            this.currentUser = {
-                id: newUser.id,
-                email: newUser.email,
-                fullName: newUser.fullName,
-                createdAt: newUser.createdAt
-            };
+            // Remove auto-login
+            // this.currentUser = {
+            //     id: newUser.id,
+            //     email: newUser.email,
+            //     fullName: newUser.fullName,
+            //     createdAt: newUser.createdAt
+            // };
+            // localStorage.setItem('nebula_current_user', JSON.stringify(this.currentUser));
             
-            localStorage.setItem('nebula_current_user', JSON.stringify(this.currentUser));
+            this.showMessage('Account created successfully! Please log in.', 'success');
             
-            this.showMessage('Account created successfully! Welcome to Nebula Notes!', 'success');
-            
-            // Redirect to main app
+            // Wait for 1.5s to show the message, then show overlay and redirect to login page
             setTimeout(() => {
-                this.redirectToApp();
-            }, 2000);
+                if (authLoadingOverlay) {
+                    authLoadingOverlay.querySelector('p').textContent = 'Redirecting to login...';
+                    authLoadingOverlay.style.display = 'flex';
+                }
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1200);
+            }, 1500);
             
         } catch (error) {
             this.showMessage(error.message, 'error');

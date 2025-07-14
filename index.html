@@ -161,13 +161,24 @@
         </div>
     </div>
 
+    <div id="authLoadingOverlay" class="loading-overlay" style="display:none;">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p>Checking authentication...</p>
+        </div>
+    </div>
+
     <script src="config.js"></script>
     <script src="auth.js"></script>
     <script>
-        // Check authentication before loading the app
+        // Show loading overlay during auth check
+        const authLoadingOverlay = document.getElementById('authLoadingOverlay');
+        if (authLoadingOverlay) authLoadingOverlay.style.display = 'flex';
         document.addEventListener('DOMContentLoaded', () => {
             if (!AuthSystem.isLoggedIn()) {
                 window.location.href = 'login.html';
+            } else {
+                if (authLoadingOverlay) authLoadingOverlay.style.display = 'none';
             }
         });
     </script>

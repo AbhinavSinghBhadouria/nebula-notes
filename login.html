@@ -16,6 +16,13 @@
         🌙
     </button>
     
+    <div id="authLoadingOverlay" class="loading-overlay" style="display:none;">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p>Checking authentication...</p>
+        </div>
+    </div>
+
     <div class="auth-container">
         <div class="auth-card">
             <div class="auth-header">
@@ -72,5 +79,26 @@
     </div>
     
     <script src="auth.js"></script>
+    <script>
+        // Show loading overlay during auth check
+        const authLoadingOverlay = document.getElementById('authLoadingOverlay');
+        if (authLoadingOverlay) authLoadingOverlay.style.display = 'flex';
+        document.addEventListener('DOMContentLoaded', () => {
+            // Hide overlay after auth check
+            setTimeout(() => {
+                if (authLoadingOverlay) authLoadingOverlay.style.display = 'none';
+            }, 500);
+        });
+        // Show overlay during login
+        const loginForm = document.getElementById('loginForm');
+        if (loginForm) {
+            loginForm.addEventListener('submit', () => {
+                if (authLoadingOverlay) {
+                    authLoadingOverlay.querySelector('p').textContent = 'Logging in...';
+                    authLoadingOverlay.style.display = 'flex';
+                }
+            });
+        }
+    </script>
 </body>
 </html> 
