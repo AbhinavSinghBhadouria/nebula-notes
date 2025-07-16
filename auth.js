@@ -13,8 +13,9 @@ class AuthSystem {
         this.createParticles();
         this.bindEvents();
         
-        // Check if user is already logged in
-        if (this.currentUser) {
+        // Check if user is already logged in and not on the main app page
+        const currentPage = window.location.pathname.split('/').pop();
+        if (this.currentUser && currentPage !== 'index.html') {
             this.redirectToApp();
         }
     }
