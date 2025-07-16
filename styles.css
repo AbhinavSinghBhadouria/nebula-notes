@@ -1218,23 +1218,6 @@ header p {
   border: 1.5px solid rgba(110,198,255,0.18);
 }
 
-.note-card-neumorph {
-  background: linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%);
-  border-radius: 1.5rem;
-  box-shadow: 8px 8px 24px #e0e7ef, -8px -8px 24px #fff;
-  border: 1.5px solid #e0e7ef;
-  padding: 2rem 1.5rem 1.5rem 1.5rem;
-  margin: 2rem auto;
-  max-width: 400px;
-  min-width: 260px;
-  transition: box-shadow 0.2s, border 0.2s, background 0.2s;
-}
-[data-theme="dark"] .note-card-neumorph {
-  background: linear-gradient(135deg, #232946 0%, #121629 100%);
-  box-shadow: 8px 8px 24px #232946, -8px -8px 24px #181c2f;
-  border: 1.5px solid #232946;
-}
-
 /* Shared note card content styles (reuse your previous .note-title, .note-date, etc.) */
 .note-title {
   font-size: 1.6rem;
