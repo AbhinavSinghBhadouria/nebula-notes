@@ -94,7 +94,7 @@ class NotesApp {
     }
 
     updateStorageDisplay(usagePercentage) {
-        if (!this.storageFill || !this.storageText) return;
+        if (!this.storageFill) return;
         
         // Update progress bar
         this.storageFill.style.width = `${Math.min(usagePercentage, 100)}%`;
@@ -107,16 +107,7 @@ class NotesApp {
             this.storageFill.classList.add('warning');
         }
         
-        // Update text
-        const usedMB = (this.getStorageSize() / (1024 * 1024)).toFixed(2);
-        const totalMB = (this.STORAGE_LIMIT / (1024 * 1024)).toFixed(0);
-        
-        if (usagePercentage >= 100) {
-            const exceededMB = ((this.getStorageSize() - this.STORAGE_LIMIT) / (1024 * 1024)).toFixed(2);
-            this.storageText.textContent = `+${exceededMB}MB OVER`;
-        } else {
-            this.storageText.textContent = `${usedMB}MB / ${totalMB}MB`;
-        }
+        // No storageText update
     }
 
     getStorageSize() {
