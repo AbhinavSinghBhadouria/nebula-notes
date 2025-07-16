@@ -491,6 +491,8 @@ class NotesApp {
     }
     
     renderNotes() {
+        // Get selected style from localStorage or default to glass
+        const selectedStyle = localStorage.getItem('noteCardStyle') || 'glass';
         if (this.notes.length === 0) {
             this.notesContainer.innerHTML = '<div class="empty-state">No notes yet. Create your first note above! 📝</div>';
             return;
@@ -500,7 +502,7 @@ class NotesApp {
             const previewId = `note-content-${note.id}`;
             const isLong = this.isContentLong(note.content);
             return `
-            <div class="note-card" data-id="${note.id}" style="animation-delay: ${index * 0.1}s;">
+            <div class="note-card note-card-${selectedStyle}" data-id="${note.id}" style="animation-delay: ${index * 0.1}s;">
                 <div class="note-title">${this.escapeHtml(note.title)}</div>
                 <span class="note-date">${note.date}</span>
                 <div class="note-content" id="${previewId}">${note.content}</div>
@@ -739,4 +741,29 @@ let notesApp;
 document.addEventListener('DOMContentLoaded', () => {
     notesApp = new NotesApp();
     window.notesApp = notesApp;
+    // UI selector logic
+    const noteStyleSelect = document.getElementById('noteStyleSelect');
+    if (noteStyleSelect) {
+        // Set initial value from localStorage
+        noteStyleSelect.value = localStorage.getItem('noteCardStyle') || 'glass';
+        noteStyleSelect.addEventListener('change', (e) => {
+            localStorage.setItem('noteCardStyle', e.target.value);
+            notesApp.renderNotes();
+        });
+    }
+    // Page style selector logic
+    const pageStyleSelect = document.getElementById('pageStyleSelect');
+    const htmlEl = document.documentElement;
+    if (pageStyleSelect) {
+        // Set initial value from localStorage
+        pageStyleSelect.value = localStorage.getItem('pageStyle') || 'classic';
+        // Apply initial class
+        htmlEl.classList.remove('page-style-classic', 'page-style-aurora', 'page-style-minimal');
+        htmlEl.classList.add('page-style-' + pageStyleSelect.value);
+        pageStyleSelect.addEventListener('change', (e) => {
+            localStorage.setItem('pageStyle', e.target.value);
+            htmlEl.classList.remove('page-style-classic', 'page-style-aurora', 'page-style-minimal');
+            htmlEl.classList.add('page-style-' + e.target.value);
+        });
+    }
 }); 

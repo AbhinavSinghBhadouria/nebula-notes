@@ -1199,22 +1199,43 @@ header p {
     margin-top: 18px;
 } 
 
-.note-card {
-  background: var(--note-bg);
-  border-radius: 1.5rem;
-  box-shadow: var(--note-shadow);
-  border: 1.5px solid var(--note-border);
+/* Note Card UI Styles */
+
+.note-card-glass {
+  background: rgba(255,255,255,0.18);
+  border: 1.5px solid rgba(110,198,255,0.25);
+  border-radius: 22px;
+  box-shadow: 0 8px 32px rgba(80,80,255,0.13);
+  backdrop-filter: blur(12px);
   padding: 2rem 1.5rem 1.5rem 1.5rem;
   margin: 2rem auto;
   max-width: 400px;
   min-width: 260px;
-  position: relative;
   transition: box-shadow 0.2s, border 0.2s, background 0.2s;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+}
+[data-theme="dark"] .note-card-glass {
+  background: rgba(30,34,45,0.38);
+  border: 1.5px solid rgba(110,198,255,0.18);
 }
 
+.note-card-neumorph {
+  background: linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%);
+  border-radius: 1.5rem;
+  box-shadow: 8px 8px 24px #e0e7ef, -8px -8px 24px #fff;
+  border: 1.5px solid #e0e7ef;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  margin: 2rem auto;
+  max-width: 400px;
+  min-width: 260px;
+  transition: box-shadow 0.2s, border 0.2s, background 0.2s;
+}
+[data-theme="dark"] .note-card-neumorph {
+  background: linear-gradient(135deg, #232946 0%, #121629 100%);
+  box-shadow: 8px 8px 24px #232946, -8px -8px 24px #181c2f;
+  border: 1.5px solid #232946;
+}
+
+/* Shared note card content styles (reuse your previous .note-title, .note-date, etc.) */
 .note-title {
   font-size: 1.6rem;
   font-weight: 800;
@@ -1273,4 +1294,123 @@ header p {
   transform: translateY(-2px) scale(1.05);
   box-shadow: 0 4px 16px rgba(60,60,120,0.13);
   opacity: 0.96;
+} 
+
+/* Deep Space Aurora Theme */
+body {
+  background: radial-gradient(ellipse at 60% 40%, #10182a 0%, #090a1a 100%),
+              linear-gradient(120deg, rgba(110,198,255,0.12) 0%, rgba(255,0,120,0.10) 100%);
+  min-height: 100vh;
+  color: #e0e7ef;
+  position: relative;
+  transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  background: repeating-radial-gradient(circle at 20% 30%, #fff2 1px, transparent 2px, transparent 100px),
+              repeating-radial-gradient(circle at 80% 70%, #fff1 1px, transparent 2px, transparent 120px);
+  opacity: 0.18;
+}
+/* Aurora & Starfield Overlay */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+  background: linear-gradient(120deg, rgba(110,198,255,0.18) 0%, rgba(255,0,120,0.13) 100%),
+    radial-gradient(ellipse at 70% 30%, rgba(0,255,255,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse at 30% 70%, rgba(255,0,255,0.10) 0%, transparent 70%);
+  mix-blend-mode: lighten;
+  animation: auroraMove 12s linear infinite alternate;
+  opacity: 0.7;
+}
+@keyframes auroraMove {
+  0% { background-position: 0% 0%, 0% 0%, 100% 100%; }
+  100% { background-position: 100% 100%, 100% 100%, 0% 0%; }
+}
+
+/* Animated Starfield */
+body .star {
+  position: fixed;
+  border-radius: 50%;
+  background: #fff;
+  opacity: 0.18;
+  z-index: 2;
+  pointer-events: none;
+  animation: twinkle 2s infinite alternate;
+}
+@keyframes twinkle {
+  0% { opacity: 0.12; }
+  100% { opacity: 0.22; }
+}
+
+/* Container & Card Glow */
+.container, header, .add-note-section, .note-card {
+  box-shadow: 0 0 32px 8px #6ec6ff33, 0 8px 32px rgba(0,0,0,0.25);
+  border: 1.5px solid #6ec6ff55;
+}
+.note-card {
+  box-shadow: 0 0 32px 8px #d500f955, 0 8px 32px rgba(0,0,0,0.32);
+  border: 1.5px solid #d500f955;
+}
+
+/* Futuristic Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Montserrat:wght@400;700&display=swap');
+.note-title, h1, h2, h3, h4, h5, h6 {
+  font-family: 'Orbitron', 'Montserrat', 'Roboto', Arial, sans-serif;
+  letter-spacing: 0.02em;
+}
+body, .note-content, .note-date {
+  font-family: 'Montserrat', 'Roboto', Arial, sans-serif;
+}
+
+/* Button Glow & Pulse */
+.note-btn {
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 16px #6ec6ff55, 0 0 16px #d500f955;
+  animation: btnPulse 2.5s infinite alternate;
+}
+@keyframes btnPulse {
+  0% { box-shadow: 0 2px 16px #6ec6ff55, 0 0 16px #d500f955; }
+  100% { box-shadow: 0 4px 32px #6ec6ff99, 0 0 32px #d500f999; }
+}
+.note-btn:hover {
+  filter: brightness(1.15) saturate(1.2);
+  animation: btnPulseFast 0.7s infinite alternate;
+}
+@keyframes btnPulseFast {
+  0% { box-shadow: 0 2px 16px #6ec6ff99, 0 0 16px #d500f999; }
+  100% { box-shadow: 0 8px 32px #6ec6ffff, 0 0 32px #d500f9ff; }
+} 
+
+.note-title {
+  color: #fff !important;
+  opacity: 0.98;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.18), 0 1px 0 #222;
+}
+
+.note-date {
+  color: #e0e6f7 !important;
+  opacity: 0.92;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.15);
+}
+
+.note-content {
+  color: #f3f6ff !important;
+  opacity: 0.97;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.13);
+}
+
+.modal-note-content,
+.modal-note-content-styled {
+  color: #f3f6ff !important;
+  opacity: 0.98;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.18), 0 1px 0 #222;
 } 
