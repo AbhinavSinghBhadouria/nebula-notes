@@ -22,10 +22,10 @@ class AuthSystem {
     setupTheme() {
         if (this.isDarkMode) {
             document.documentElement.setAttribute('data-theme', 'dark');
-            this.themeToggle.textContent = '☀️';
+            if (this.themeToggle) this.themeToggle.textContent = '☀️';
         } else {
             document.documentElement.setAttribute('data-theme', 'light');
-            this.themeToggle.textContent = '🌙';
+            if (this.themeToggle) this.themeToggle.textContent = '🌙';
         }
     }
     
