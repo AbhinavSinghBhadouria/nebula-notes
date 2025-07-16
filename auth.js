@@ -212,7 +212,9 @@ class AuthSystem {
             
             // Wait for 1.5s to show the message, then redirect to main app
             setTimeout(() => {
+                console.log('Redirecting to index.html after signup...');
                 this.redirectToApp();
+                console.log('Redirect toApp called');
             }, 1500);
             
         } catch (error) {
