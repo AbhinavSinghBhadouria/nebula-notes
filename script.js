@@ -500,19 +500,16 @@ class NotesApp {
             const previewId = `note-content-${note.id}`;
             const isLong = this.isContentLong(note.content);
             return `
-            <div class="note" data-id="${note.id}" style="animation-delay: ${index * 0.1}s;">
-                <div class="note-header">
-                    <h3 class="note-title">${this.escapeHtml(note.title)}</h3>
-                    ${note.improved ? '<span style="color: #4CAF50; font-size: 0.8rem;">✨ AI Improved</span>' : ''}
-                </div>
-                <div class="note-date">${note.date}</div>
+            <div class="note-card" data-id="${note.id}" style="animation-delay: ${index * 0.1}s;">
+                <div class="note-title">${this.escapeHtml(note.title)}</div>
+                <span class="note-date">${note.date}</span>
                 <div class="note-content" id="${previewId}">${note.content}</div>
                 ${isLong ? `<button class="show-more-btn" onclick="notesApp.openNoteModal(${note.id})">Show more</button>` : ''}
                 <div class="note-actions">
-                    <button class="btn btn-edit" onclick="notesApp.editNote(${note.id})">✏️ Edit</button>
-                    <button class="btn btn-improve" onclick="notesApp.improveNoteWithAI(${note.id})">🤖 Improve with AI</button>
-                    <button class="btn btn-delete" onclick="notesApp.deleteNote(${note.id})">🗑️ Delete</button>
-                    <button class="btn btn-export" onclick="notesApp.exportSingleNoteAsPDF(${note.id})" title="Export this note as PDF">📄 Export as PDF</button>
+                    <button class="note-btn edit" onclick="notesApp.editNote(${note.id})">✏️ Edit</button>
+                    <button class="note-btn ai" onclick="notesApp.improveNoteWithAI(${note.id})">🤖 Improve with AI</button>
+                    <button class="note-btn delete" onclick="notesApp.deleteNote(${note.id})">🗑️ Delete</button>
+                    <button class="note-btn pdf" onclick="notesApp.exportSingleNoteAsPDF(${note.id})" title="Export this note as PDF">📄 Export as PDF</button>
                 </div>
             </div>
         `; }).join('');
