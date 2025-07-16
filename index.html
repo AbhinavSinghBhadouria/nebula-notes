@@ -168,6 +168,9 @@
         </div>
     </div>
 
+    <button id="showCurrentUserBtn" style="display:none; position:fixed; bottom:20px; left:20px; z-index:2000;">Show Current User</button>
+    <div id="currentUserInfo" style="display:none; position:fixed; bottom:60px; left:20px; background:#222; color:#fff; padding:16px; border-radius:8px; z-index:2001;"></div>
+
     <script src="config.js"></script>
     <script src="auth.js"></script>
     <script>
@@ -179,6 +182,22 @@
                 window.location.href = 'login.html';
             } else {
                 if (authLoadingOverlay) authLoadingOverlay.style.display = 'none';
+            }
+        });
+        // Admin-only: Show current user info
+        const adminEmail = "bhadouriaabhinavsingh@gmail.com"; // Set your admin email here
+        const currentUser = JSON.parse(localStorage.getItem('nebula_current_user'));
+        const showCurrentUserBtn = document.getElementById('showCurrentUserBtn');
+        const currentUserInfo = document.getElementById('currentUserInfo');
+        if (currentUser && currentUser.email === adminEmail) {
+            showCurrentUserBtn.style.display = 'block';
+        }
+        showCurrentUserBtn && showCurrentUserBtn.addEventListener('click', () => {
+            if (currentUserInfo.style.display === 'none') {
+                currentUserInfo.textContent = JSON.stringify(currentUser, null, 2);
+                currentUserInfo.style.display = 'block';
+            } else {
+                currentUserInfo.style.display = 'none';
             }
         });
     </script>
