@@ -86,12 +86,39 @@ header {
 
 .header-top {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     margin-bottom: 20px;
     padding: 0 20px;
-    flex-wrap: wrap; /* Allow wrapping on small screens */
-    gap: 10px; /* Add spacing between items */
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.user-info {
+    margin-left: 0;
+    margin-right: auto;
+}
+.about-btn {
+    margin-right: 80px; /* Space before theme toggle */
+}
+@media (max-width: 900px) {
+    .about-btn {
+        margin-right: 60px;
+    }
+}
+@media (max-width: 600px) {
+    .header-top {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+    .user-info {
+        justify-content: flex-end;
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .about-btn {
+        margin-right: 0;
+    }
 }
 
 .user-info {
@@ -968,26 +995,19 @@ header p {
 } 
 
 .about-btn {
-    position: absolute;
-    top: 24px;
-    left: 24px;
-    background: linear-gradient(90deg, #6ec6ff 0%, #304ffe 100%);
-    color: #fff;
-    border: none;
-    border-radius: 22px;
-    padding: 10px 22px;
-    font-size: 1.05rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    box-shadow: 0 2px 12px rgba(30,60,180,0.10);
-    cursor: pointer;
+    position: fixed;
+    top: 20px;
+    right: 80px; /* 20px for theme toggle + 60px gap */
     z-index: 1100;
-    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    margin: 0;
 }
-.about-btn:hover {
-    background: linear-gradient(90deg, #304ffe 0%, #6ec6ff 100%);
-    color: #fff;
-    box-shadow: 0 4px 18px rgba(30,60,180,0.18);
+@media (max-width: 600px) {
+    .about-btn {
+        position: fixed;
+        top: 80px;
+        right: 20px;
+        width: auto;
+    }
 }
 
 /* About Us Modal Styles */
