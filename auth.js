@@ -95,6 +95,7 @@ class AuthSystem {
     }
     
     async handleLogin(e) {
+        console.log('handleLogin called');
         e.preventDefault();
         
         const form = e.target;
@@ -151,6 +152,7 @@ class AuthSystem {
     }
     
     async handleSignup(e) {
+        console.log('handleSignup called');
         e.preventDefault();
         
         const form = e.target;
@@ -197,26 +199,20 @@ class AuthSystem {
             this.users.push(newUser);
             localStorage.setItem('nebula_users', JSON.stringify(this.users));
             
-            // Remove auto-login
-            // this.currentUser = {
-            //     id: newUser.id,
-            //     email: newUser.email,
-            //     fullName: newUser.fullName,
-            //     createdAt: newUser.createdAt
-            // };
-            // localStorage.setItem('nebula_current_user', JSON.stringify(this.currentUser));
+            // Auto-login after signup
+            this.currentUser = {
+                id: newUser.id,
+                email: newUser.email,
+                fullName: newUser.fullName,
+                createdAt: newUser.createdAt
+            };
+            localStorage.setItem('nebula_current_user', JSON.stringify(this.currentUser));
             
-            this.showMessage('Account created successfully! Please log in.', 'success');
+            this.showMessage('Account created successfully! Redirecting...', 'success');
             
-            // Wait for 1.5s to show the message, then show overlay and redirect to login page
+            // Wait for 1.5s to show the message, then redirect to main app
             setTimeout(() => {
-                if (authLoadingOverlay) {
-                    authLoadingOverlay.querySelector('p').textContent = 'Redirecting to login...';
-                    authLoadingOverlay.style.display = 'flex';
-                }
-                setTimeout(() => {
-                    window.location.href = 'login.html';
-                }, 1200);
+                this.redirectToApp();
             }, 1500);
             
         } catch (error) {
@@ -297,6 +293,8 @@ class AuthSystem {
 }
 
 // Initialize auth system when DOM is loaded
+console.log('auth.js loaded');
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOMContentLoaded - instantiating AuthSystem');
     new AuthSystem();
 }); 

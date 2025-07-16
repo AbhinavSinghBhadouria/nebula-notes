@@ -89,16 +89,6 @@
                 if (authLoadingOverlay) authLoadingOverlay.style.display = 'none';
             }, 500);
         });
-        // Show overlay during login
-        const loginForm = document.getElementById('loginForm');
-        if (loginForm) {
-            loginForm.addEventListener('submit', () => {
-                if (authLoadingOverlay) {
-                    authLoadingOverlay.querySelector('p').textContent = 'Logging in...';
-                    authLoadingOverlay.style.display = 'flex';
-                }
-            });
-        }
     </script>
 </body>
 </html> 
