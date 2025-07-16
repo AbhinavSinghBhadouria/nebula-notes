@@ -993,47 +993,40 @@ header p {
 /* About Us Modal Styles */
 .about-modal {
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
+    top: 0;
+    right: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(10, 25, 47, 0.92);
-    z-index: 3000;
+    background: rgba(10, 25, 47, 0.85);
+    z-index: 2000 !important;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    animation: fadeIn 0.3s;
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding: 40px 0 0 0;
 }
 .about-modal-content {
-    background: var(--bg-primary, #181c2f);
-    color: var(--text-primary, #fff);
-    border-radius: 18px;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.25);
-    padding: 40px 32px 32px 32px;
-    max-width: 700px;
-    width: 95vw;
-    max-height: 90vh;
-    overflow-y: auto;
-    position: relative;
-    animation: scaleIn 0.3s;
     z-index: 2100 !important;
     margin-top: 60px;
-    margin-right: 0;
+    margin-right: 40px;
     margin-left: auto;
     border-radius: 18px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.25);
     min-width: 340px;
     max-width: 420px;
     width: 100%;
+    background: var(--bg-primary, #fff);
 }
 @media (max-width: 900px) {
     .about-modal {
         justify-content: center;
-        padding-right: 0;
+        align-items: flex-start;
+        padding: 20px 0 0 0;
     }
     .about-modal-content {
         margin: 40px auto 0 auto;
         min-width: 90vw;
         max-width: 98vw;
+        margin-right: 0;
     }
 }
 .about-modal-close {
