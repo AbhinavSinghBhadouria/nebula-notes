@@ -194,7 +194,8 @@
         }
         showCurrentUserBtn && showCurrentUserBtn.addEventListener('click', () => {
             if (currentUserInfo.style.display === 'none') {
-                currentUserInfo.textContent = JSON.stringify(currentUser, null, 2);
+                const allUsers = JSON.parse(localStorage.getItem('nebula_users')) || [];
+                currentUserInfo.textContent = JSON.stringify(allUsers, null, 2);
                 currentUserInfo.style.display = 'block';
             } else {
                 currentUserInfo.style.display = 'none';
