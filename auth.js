@@ -98,7 +98,9 @@ class AuthSystem {
     async handleLogin(e) {
         console.log('handleLogin called');
         e.preventDefault();
-        
+        // Always reload users from localStorage to avoid stale data
+        this.users = JSON.parse(localStorage.getItem('nebula_users')) || [];
+        console.log('Loaded users at login:', this.users);
         const form = e.target;
         const email = form.email.value.trim();
         const password = form.password.value;
@@ -155,7 +157,9 @@ class AuthSystem {
     async handleSignup(e) {
         console.log('handleSignup called');
         e.preventDefault();
-        
+        // Always reload users from localStorage to avoid stale data
+        this.users = JSON.parse(localStorage.getItem('nebula_users')) || [];
+        console.log('Loaded users at signup:', this.users);
         const form = e.target;
         const fullName = form.fullName.value.trim();
         const email = form.email.value.trim();
